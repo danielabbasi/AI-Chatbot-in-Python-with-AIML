@@ -1,10 +1,14 @@
 import aiml
+import os
 
-# Create the kernel and learn AIML files
 kernel = aiml.Kernel()
-kernel.learn("std-startup.xml")
-kernel.respond("load aiml b")
 
-# Press CTRL-C to break this loop
+if os.path.isfile("bot_brain.brn"):
+    kernel.bootstrap(brainFile = "bot_brain.brn")
+else:
+    kernel.bootstrap(learnFiles = "std-startup.xml", commands = "load aiml b")
+    kernel.saveBrain("bot_brain.brn")
+
+# kernel now ready for use
 while True:
     print(kernel.respond(input("Enter your message >> ")))
